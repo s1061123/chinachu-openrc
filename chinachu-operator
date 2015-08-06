@@ -1,0 +1,24 @@
+#!/sbin/runscript
+# Copyright 2015 @s1061123
+
+description="Starts the chinachu-operator"
+pidfile="/var/run/chinachu-operator.pid"
+command="/home/chinachu/chinachu/chinachu"
+command_args="service operator execute"
+start_stop_daemon_args="--background --make-pidfile --pidfile ${pidfile} 
+	--user chinachu"
+
+depend() {
+	use net
+}
+
+restart () {
+	svc_stop
+	svc_start
+}
+
+stop() {
+	ebegin "Stopping ${SVCNAME}"
+	start-stop-daemon --stop --exec ${command} --pidfile ${pidfile}
+	eend
+}

@@ -1,0 +1,41 @@
+#!/sbin/runscript
+#!/bin/bash
+# /etc/
+
+### BEGIN INIT INFO
+# Provides:          chinachu-wui
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts the chinachu-wui
+# Description:       starts the chinachu-wui (USER=chinachu)
+### END INIT INFO
+
+#PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+#DAEMON=/home/chinachu/chinachu/chinachu
+#DAEMON_OPTS="service wui execute"
+#NAME=chinachu-wui
+#USER=chinachu
+#PIDFILE=/var/run/${NAME}.pid
+description="Starts the chinachu-wui"
+pidfile="/var/run/chinachu-wui.pid"
+command="/home/chinachu/chinachu/chinachu"
+command_args="service wui execute"
+start_stop_daemon_args="--background --make-pidfile --pidfile ${pidfile} 
+	--user chinachu"
+
+depend() {
+	use net
+}
+
+restart () {
+	svc_stop
+	svc_start
+}
+
+stop() {
+	ebegin "Stopping ${SVCNAME}"
+	start-stop-daemon --stop --exec ${command} --pidfile ${pidfile}
+	eend
+}
