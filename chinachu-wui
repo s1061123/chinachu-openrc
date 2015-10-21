@@ -37,5 +37,6 @@ restart () {
 stop() {
 	ebegin "Stopping ${SVCNAME}"
 	start-stop-daemon --stop --exec ${command} --pidfile ${pidfile}
+	pkill -f -u chinachu 'node app-wui.js'
 	eend
 }
